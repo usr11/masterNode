@@ -23,13 +23,8 @@ public class MasterController implements IClusterControl {
         // AUTO-DISCOVERY (Simplificado)
         // Aquí agregamos los workers conocidos.
         // En el laboratorio real, esto vendría de un archivo de configuración con las IPs de los 30 PCs.
-        int[] puertos = {10000, 10001, 10002};
-//        addWorker("SimpleWorker:tcp -h localhost -p 10000");
-        for (int port : puertos) {
-            // "SimpleWorker" es el nombre lógico que le pusimos en el adapter.add del Worker
-            String proxy = "SimpleWorker:tcp -h localhost -p " + port;
-            addWorker(proxy);
-        }
+
+        addWorker("SimpleWorker:tcp -h localhost -p 10000");
     }
 
     private void addWorker(String proxyString) {

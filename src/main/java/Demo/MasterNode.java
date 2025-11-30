@@ -27,7 +27,7 @@ public class MasterNode {
             // 2. Ejecutar el Sistema
             // Nota: Para probar, asegúrate de tener un archivo dummy o real en esa ruta
             // Si el archivo no existe, crea uno vacío llamado 'test_data.csv' en la raíz del proyecto
-            facade.startAnalysis("test_data.csv");
+            facade.startAnalysis("datagrams_test.csv");
 
             // Mantener vivo si fuera un servidor persistente,
             // pero como es un Job Batch, terminamos cuando acabe la función.
