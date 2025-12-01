@@ -20,11 +20,9 @@ public class MasterController implements IClusterControl {
         this.workers = new ArrayList<>();
         this.roundRobinCounter = new AtomicInteger(0);
 
-        // AUTO-DISCOVERY (Simplificado)
-        // Aquí agregamos los workers conocidos.
-        // En el laboratorio real, esto vendría de un archivo de configuración con las IPs de los 30 PCs.
+        addWorker("SimpleWorker:tcp -h 10.147.17.104 -p 10000");
+        addWorker("SimpleWorker:tcp -h 10.147.17.107 -p 10000");
 
-        addWorker("SimpleWorker:tcp -h localhost -p 10000");
     }
 
     private void addWorker(String proxyString) {
@@ -47,8 +45,7 @@ public class MasterController implements IClusterControl {
             return new TaskResult(0, "Error", 0);
         }
 
-        // PATRÓN: Load Balancing (Round Robin)
-        // Selecciona el siguiente worker en la lista circularmente
+
         int index = roundRobinCounter.getAndIncrement() % workers.size();
         WorkerPrx selectedWorker = workers.get(Math.abs(index)); // Math.abs por si overflow
 
@@ -56,7 +53,7 @@ public class MasterController implements IClusterControl {
                 + startOffset + " - " + endOffset);
 
         try {
-            // LLAMADA REMOTA (RPC)
+
             return selectedWorker.processDatagramLog(filePath, startOffset, endOffset);
         } catch (Exception e) {
             System.err.println("[Controller] Error comunicando con worker: " + e.getMessage());
